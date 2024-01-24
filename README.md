@@ -27,7 +27,7 @@ Segmenting brain tissue from medical images faces challenges due to scanner vari
 In our training data, tissue region voxels might not naturally align, necessitating image registration as a pivotal step for atlas generation. The process starts by selecting a fixed image from the population based on mutual information (refer to Figure 2), serving as the reference image. Subsequently, all other images in the dataset are treated as moving images and undergo registration against this fixed image to achieve alignment. We utilized elastix, developed by SimpleITK, for 3D Brain MR Image registration in this project. The choice of registration parameters can significantly influence the registration outcome. Consequently, we emphasize the importance of selecting appropriate parameters for optimal registration results. Our project employed three distinct registration techniques: **rigid, affine, and b-spline**.
 
 <p align="center">
-  <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/3dc252fa-eaba-4cf4-9452-8748b1e0087d" width="500" alt="Pre-processed Image">
+  <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/3dc252fa-eaba-4cf4-9452-8748b1e0087d" width="700" alt="Pre-processed Image">
 </p>
 <p align="center">Figure 2: Mutual Information of Training Images.</p>
 
@@ -49,7 +49,7 @@ Here, I<sub>M</sub> (x, y, z) represents the value of the voxel at position (x, 
 Tissue models represent the conditional probabilities of voxel classes given their intensities, denoted as p(ω|x). These probabilities are derived by utilizing the ground truth label assignment for each volume. Subsequently, these tissue models can be employed for generating a brain segmentation solely based on intensities or for providing improved initialization in the Expectation-Maximization (EM) algorithm. Figure 3 demonstrates the entire pipeline of brain tissue segmentation using Probabilistic ATLAS.
 
 <p align="center">
-  <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/83fa9902-2a98-4128-a5a6-6a21a4d9546f" width="900" alt="Pre-processed Image">
+  <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/83fa9902-2a98-4128-a5a6-6a21a4d9546f" width="1100" alt="Pre-processed Image">
 </p>
 <p align="center">Figure 3: Pipeline for Brain Tissue Segmentation Using Probabilistic ATLAS.</p>
 
@@ -58,9 +58,9 @@ Tissue models represent the conditional probabilities of voxel classes given the
 We assessed our brain tissue segmentation models using three key metrics: Dice Coefficient Score (DSC), Hausdorff Distance (HD), and Absolute Volumetric Distance (AVD). Figure 4 visually illustrates segmented images with the Probabilistic ATLAS using rigid, affine, and b-spline registration techniques, providing an overview of performance variations across different registrations.
 
 <p align="center">
-  <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/c417d9a4-b911-4a12-9897-8e0cd5e23ba3" width="400" alt="Pre-processed Image">
+  <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/c417d9a4-b911-4a12-9897-8e0cd5e23ba3" width="500" alt="Pre-processed Image">
 </p>
-<p align="center">Figure 4: Segmentation Results.</p>
+<p align="center">              Figure 4: Segmentation Results of Probabilistic ATLAS.</p>
 
 Beyond visualizing the segmented results, a comprehensive performance analysis is presented in Table 1, outlining the computed metrics for each model. After analyzing all the computed metrics, it can be said that the affine transformation outperformed other registration techniques.
 
