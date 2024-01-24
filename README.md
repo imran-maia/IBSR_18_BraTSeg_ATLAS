@@ -24,49 +24,49 @@ Segmenting brain tissue from medical images faces challenges due to scanner vari
 <p align="center">Figure 1: Pre-processed Image.</p>
 
 ### Image Registration
-There is a high possibility that the tissue region voxels of all the images for training will not be in the same alignment. Therefore, image registration is an essential and initial step for atlas generation. To begin the image registration, at first, a fixed image is chosen from the population based on the mutual information shown in Figure 4 which is considered as reference image. After that, all other images in the population are considered as moving images and perform registration against the fixed image to align them into a common. In this project, we have used **elastix** developed by SimpleITK for 3D Brain MR Image registration. The image registration can be varied due to the uses of different registration parameters. As image registration can be varied due to the uses of different registration parameters, choosing the appropriate registration parameter is important for better registration outcomes. In this project, we have used three different registration techniques such as rigid, affine, and b-spline.
-
+In our training data, tissue region voxels might not naturally align, necessitating image registration as a pivotal step for atlas generation. The process starts by selecting a fixed image from the population based on mutual information (refer to Figure 2), serving as the reference image. Subsequently, all other images in the dataset are treated as moving images and undergo registration against this fixed image to achieve alignment. We utilized elastix, developed by SimpleITK, for 3D Brain MR Image registration in this project. The choice of registration parameters can significantly influence the registration outcome. Consequently, we emphasize the importance of selecting appropriate parameters for optimal registration results. Our project employed three distinct registration techniques: **rigid, affine, and b-spline**.
 
 <p align="center">
   <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/3dc252fa-eaba-4cf4-9452-8748b1e0087d" width="500" alt="Pre-processed Image">
 </p>
+<p align="center">Figure 2: Mutual Information of Training Images.</p>
 
 
 ### Label Propagation
-After the completion of registration, the subsequent task is to propagate the label. In this step, the transformation parameters acquired in the first step are applied to the corresponding labels for each instance. This process ensures that labels are moved to the registration space in accordance with the transformations applied to the images. For propagating the labels, we used the **transformix** tool developed by SimpleITK.
+Following the registration process, the next crucial step involves label propagation. Here, the transformation parameters obtained in the initial step are applied to the respective labels for each instance. This ensures that labels are appropriately relocated in the registration space, aligning with the transformations applied to the images. To facilitate label propagation, we employed the transformix tool developed by SimpleITK. This tool plays a key role in applying the transformations to the labels, ensuring their accurate placement in the newly registered space.
 
 ### ATLAS Generation
-Once the image registration and corresponding label propagation are completed for each sample in the training subset, the next step is to generate the atlas. The choice of the atlas template is pivotal and can be based on either the fixed image used during registration or a mean image derived from all the registered images. This mean image is calculated voxel-wise across the dataset, using the formula:
+Once image registration and label propagation are completed for each sample in the training subset, the subsequent step involves atlas generation. The choice of the atlas template is critical, and it can be based on either the fixed image used during registration or a mean image derived from all the registered images. The mean image is calculated voxel-wise across the dataset using the formula:
 
 <p align="center">
   <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/95dc338c-c5ba-4fdd-95c6-fe12baebfede" width="200" alt="Pre-processed Image">
 </p>
 
+Here, I<sub>M</sub> (x, y, z) represents the value of the voxel at position (x, y, z) in the mean image, N is the total number of images in the dataset, and I (x, y, z) denotes the value of the voxel at position (x, y, z) in the i-th registered image. For label synthesis, the propagated labels from the training images are combined using methods like voxel-wise averaging or majority voting. These approaches ensure accurate and representative labeling in the atlas, reflecting the most common or average features across the dataset.
 
 
 ### Tissue Model
-Tissue models represent the conditional probabilities of voxel classes given their intensities, denoted as p(ω|x). These probabilities are derived by utilizing the ground truth label assignment for each volume. Subsequently, these tissue models can be employed for generating a brain segmentation solely based on intensities or for providing improved initialization in the Expectation-Maximization (EM) algorithm.
-
-
-
+Tissue models represent the conditional probabilities of voxel classes given their intensities, denoted as p(ω|x). These probabilities are derived by utilizing the ground truth label assignment for each volume. Subsequently, these tissue models can be employed for generating a brain segmentation solely based on intensities or for providing improved initialization in the Expectation-Maximization (EM) algorithm. Figure 3 demonstrates the entire pipeline of brain tissue segmentation using Probabilistic ATLAS.
 
 <p align="center">
   <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/83fa9902-2a98-4128-a5a6-6a21a4d9546f" width="900" alt="Pre-processed Image">
 </p>
-<p align="center">Figure 1: Pre-processed Image.</p>
+<p align="center">Figure 3: Pipeline for Brain Tissue Segmentation Using Probabilistic ATLAS.</p>
 
 
 # Results 
-To assess the performance of our brain tissue segmentation models, we employed three key metrics: Dice Coefficient Score (DSC), Hausdorff Distance (HD), and Absolute Volumetric Distance (AVD). The visual representation of predicted segmentation results from each deep-learning model is illustrated in Figure
+We assessed our brain tissue segmentation models using three key metrics: Dice Coefficient Score (DSC), Hausdorff Distance (HD), and Absolute Volumetric Distance (AVD). Figure 4 visually illustrates segmented images with the Probabilistic ATLAS using rigid, affine, and b-spline registration techniques, providing an overview of performance variations across different registrations.
 
 <p align="center">
   <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/c417d9a4-b911-4a12-9897-8e0cd5e23ba3" width="400" alt="Pre-processed Image">
 </p>
-<p align="center">Figure 1: Pre-processed Image.</p>
+<p align="center">Figure 4: Segmentation Results.</p>
 
-Beyond visualizing the segmented results, a comprehensive performance analysis is presented in Table 1, outlining the computed metrics for each model. After analyzing all the computed metrics, it can be said that the affine transformation outperformed other registration techniques U-Net and LinkNet and provided outstanding segmentation results.
+Beyond visualizing the segmented results, a comprehensive performance analysis is presented in Table 1, outlining the computed metrics for each model. After analyzing all the computed metrics, it can be said that the affine transformation outperformed other registration techniques.
 
+<br>
+<p align="center">Table 1: Performance Analysis of Probabilistic ATLAS Based Brain Tissue Segmentation.</p>
 <p align="center">
   <img src="https://github.com/imran-maia/IBSR_18_BraTSeg_ATLAS/assets/122020364/ed54e277-8722-4c7d-b232-e85dfd8a71ee" width="700" alt="Pre-processed Image">
 </p>
-<p align="center">Figure 1: Pre-processed Image.</p>
+
